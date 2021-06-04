@@ -6,7 +6,7 @@ class Peminjaman_buku extends CI_Controller {
 	public function __construct() {
         parent::__construct();
 
-        //check peminjaman_buku already login & authorized peminjaman_buku type
+        //check manual
 		if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
         	redirect('auth/login');
         }

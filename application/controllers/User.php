@@ -6,7 +6,7 @@ class User extends CI_Controller {
 	public function __construct() {
         parent::__construct();
 
-        //check user already login & authorized user type
+        //check manual
 		if(!$this->session->userdata('id') || $this->session->userdata('type') != 'admin') {
         	redirect('auth/login');
         }
