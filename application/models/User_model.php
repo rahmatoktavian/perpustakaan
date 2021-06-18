@@ -47,7 +47,7 @@ class User_model extends CI_Model {
 		//filter data sesuai id yang dikirim dari controller
 		$this->db->where('username', $username);
 		$this->db->where('password', $password);
-
+		
 		$query = $this->db->get();
 		
 		//query->row_array = mengirim data ke controller dalam bentuk 1 data

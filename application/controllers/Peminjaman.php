@@ -7,14 +7,14 @@ class Peminjaman extends CI_Controller {
         parent::__construct();
 
         //check manual
-		if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
-        	redirect('auth/login');
-        }
-
-        //check akses auto
-        /*if(!check_akses('peminjaman/read')) {
+		/*if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
         	redirect('auth/login');
         }*/
+
+        //check akses auto
+        if(!check_akses('peminjaman/read')) {
+        	redirect('auth/login');
+        }
         
         //memanggil model
         $this->load->model(array('peminjaman_model','anggota_model', 'petugas_model', 'pengembalian_model'));

@@ -7,14 +7,14 @@ class Grafik extends CI_Controller {
         parent::__construct();
 
         //check manual
-		if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
-        	redirect('auth/login');
-        }
-
-        //check akses auto
-        /*if(!check_akses('grafik/rekap_peminjaman')) {
+		/*if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
         	redirect('auth/login');
         }*/
+
+        //check akses auto
+        if(!check_akses('grafik/rekap_peminjaman')) {
+        	redirect('auth/login');
+        }
         
         //memanggil model
         $this->load->model('dashboard_model');

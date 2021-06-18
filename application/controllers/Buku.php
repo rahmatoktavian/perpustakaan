@@ -7,7 +7,7 @@ class Buku extends CI_Controller {
         parent::__construct();
 
         //check manual
-		if(!$this->session->userdata('id') || $this->session->userdata('type') != 'petugas') {
+		if(!$this->session->userdata('id')) {
         	redirect('auth/login');
         }
 

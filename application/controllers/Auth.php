@@ -35,7 +35,6 @@ class Auth extends CI_Controller {
 
 			//aturan validasi input login
 			$this->form_validation->set_rules('username', 'Username', 'required|alpha|callback_login_check');
-
 			$this->form_validation->set_rules('password', 'Password', 'required|alpha_numeric|min_length[4]
 				');
 
@@ -47,6 +46,8 @@ class Auth extends CI_Controller {
 					redirect('peminjaman_saya');
 				} else if($this->session->userdata('type') == 'petugas') {
 					redirect('dashboard');
+				} else {
+					redirect('grafik/rekap_peminjaman');
 				}
 				
 			} 
@@ -65,14 +66,13 @@ class Auth extends CI_Controller {
 		
 		//check username & password sesuai dengan di database
 		$data_user = $this->user_model->read_single_login($username, $password_encrypt);
-		
+
 		//jika cocok : dikembalikan ke fungsi login_submit (validasi sukses)
 		if(!empty($data_user)) {
 
 			//buat session user 
 			$this->session->set_userdata('id', $data_user['id']);
 			$this->session->set_userdata('user_type_id', $data_user['user_type_id']);
-			$this->session->set_userdata('username', $data_user['username']);
 			$this->session->set_userdata('type', $data_user['type']);
 			$this->session->set_userdata('petugas_id', $data_user['petugas_id']);
 			$this->session->set_userdata('nim', $data_user['nim']);

@@ -6,7 +6,7 @@ function user_akses($pid){
    
    	$user_type_id = $ci->session->userdata('user_type_id');
    	$user_akses = $ci->user_type_akses_model->read_pid($user_type_id, $pid);
-    
+  
     return $user_akses;
 }
 
