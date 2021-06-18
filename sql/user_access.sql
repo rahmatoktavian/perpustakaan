@@ -3,7 +3,7 @@ CREATE TABLE `user_type` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nama` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `user_type` (`id`, `nama`) VALUES
 (1,	'petugas'),
@@ -39,7 +39,7 @@ CREATE TABLE `akses` (
   `link` varchar(255) NOT NULL,
   `urutan` smallint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `akses` (`id`, `pid`, `nama`, `icon`, `link`, `urutan`) VALUES
 (1,	0,	'Peminjaman Saya',	'fa-book',	'peminjaman_saya/read',	1),
@@ -50,9 +50,9 @@ INSERT INTO `akses` (`id`, `pid`, `nama`, `icon`, `link`, `urutan`) VALUES
 (6,	4,	'Laporan Peminjaman',	'fa-clipboard',	'laporan/rekap_peminjaman',	2),
 (7,	4,	'Detail Peminjaman',	'fa-list',	'laporan/detail_peminjaman',	3),
 (8,	0,	'Setting',	'',	'',	4),
-(9,	4,	'Buku',	'fa-book',	'buku/read',	1),
-(10,	4,	'Anggota',	'fa-user',	'anggota/read',	2),
-(11,	4,	'Petugas',	'fa-user-circle',	'petugas/read',	3);
+(9,	8,	'Buku',	'fa-book',	'buku/read',	1),
+(10,	8,	'Anggota',	'fa-user',	'anggota/read',	2),
+(11,	8,	'Petugas',	'fa-user-circle',	'petugas/read',	3);
 
 DROP TABLE IF EXISTS `user_type_akses`;
 CREATE TABLE `user_type_akses` (
@@ -64,7 +64,7 @@ CREATE TABLE `user_type_akses` (
   KEY `akses_id` (`akses_id`),
   CONSTRAINT `user_type_akses_ibfk_1` FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`),
   CONSTRAINT `user_type_akses_ibfk_2` FOREIGN KEY (`akses_id`) REFERENCES `akses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `user_type_akses` (`id`, `user_type_id`, `akses_id`) VALUES
 (1,	1,	2),

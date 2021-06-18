@@ -8,35 +8,75 @@
     <div class="sidebar-brand-text mx-3">Pustaka <sup>App</sup></div>
   </a>
 
-  <!--get akses pid = 0-->
-  <?php $user_akses = user_akses(0);?>
-  <?php foreach($user_akses as $akses):?>
+  <?php if($this->session->userdata('type') == 'anggota'):?>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('peminjaman_saya/read');?>">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Peminjaman Saya</span>
+    </a>
+  </li>
+  <?php endif;?>
 
-    <!--display akses pid = 0-->
-    <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url($akses['link']);?>">
-        <?php if($akses['icon'] != ''):?>
-          <i class="fas fa-fw <?php echo $akses['icon'];?>"></i>
-        <?php endif;?>
-        <span><?php echo $akses['nama'];?></span>
-      </a>
-    </li>
 
-    <!--get subakses-->
-    <?php $user_subakses = user_akses($akses['id']);?>
-    <?php foreach($user_subakses as $subakses):?>
-    <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url($subakses['link']);?>">
-        <?php if($subakses['icon'] != ''):?>
-          <i class="fas fa-fw <?php echo $subakses['icon'];?>"></i>
-        <?php endif;?>
-        <span><?php echo $subakses['nama'];?></span>
-      </a>
-    </li>
-    <?php endforeach?>
-    <!--end get subakses-->
+  <?php if($this->session->userdata('type') == 'petugas'):?>
+  <li class="nav-item active">
+    <a class="nav-link" href="<?php echo site_url('dashboard/index');?>">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('peminjaman/read');?>">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Input Peminjaman</span>
+    </a>
+  </li>
 
-  <?php endforeach?>
+  <div class="sidebar-heading">
+    Laporan
+  </div>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('grafik/rekap_peminjaman');?>">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Grafik Peminjaman</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('laporan/rekap_peminjaman');?>">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Laporan Peminjaman</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('laporan/detail_peminjaman');?>">
+      <i class="fas fa-fw fa-list"></i>
+      <span>Detail Peminjaman</span>
+    </a>
+  </li>
+
+  <div class="sidebar-heading">
+    Setting
+  </div>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('buku/read');?>">
+      <i class="fas fa-fw fa-book"></i>
+      <span>Buku</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('anggota/read');?>">
+      <i class="fas fa-fw fa-user"></i>
+      <span>Anggota</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('petugas/read');?>">
+      <i class="fas fa-fw fa-user-circle"></i>
+      <span>Petugas</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="<?php echo site_url('api_client/rajaongkir');?>">
+      <i class="fas fa-fw fa-truck"></i>
+      <span>API RajaOngkir</span></a>
+  </li>
+  <?php endif;?>
 
   <hr class="sidebar-divider d-none d-md-block">
 
