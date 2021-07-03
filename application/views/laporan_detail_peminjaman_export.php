@@ -8,7 +8,7 @@ if($tipe_file == 'xls') {
 <table border="1">
 	<thead>
 		<tr>
-			<th>Anggota</th>
+			<th>Nama Anggota</th>
 			<th>Tanggal Pinjam</th>
 			<th>Batas Tanggal Kembali</th>
 		</tr>

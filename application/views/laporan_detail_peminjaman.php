@@ -59,10 +59,10 @@
 	</tbody>
 </table>
 
-<a href="<?php echo site_url('laporan/detail_peminjaman_export/xls');?>" class="btn btn-success">
+<a href="<?php echo site_url('laporan/detail_peminjaman_export/xls/'.$search_param_url);?>" class="btn btn-success">
 <i class="fa fa-download"></i> Excel
 </a>
 
-<a href="<?php echo site_url('laporan/detail_peminjaman_export/pdf');?>" class="btn btn-danger">
+<a href="<?php echo site_url('laporan/detail_peminjaman_export/pdf/'.$search_param_url);?>" class="btn btn-danger">
 <i class="fa fa-download"></i> PDF
 </a>

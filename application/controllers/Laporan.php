@@ -22,7 +22,7 @@ class Laporan extends CI_Controller {
 
 	public function index() {
 		//mengarahkan ke function read
-		$this->kota_provinsi();
+
 	}
 
 	public function rekap_peminjaman() {
@@ -32,7 +32,7 @@ class Laporan extends CI_Controller {
 		//mengirim data ke view
 		$output = array(
 						'theme_page' => 'laporan_rekap_peminjaman',
-						'judul' => 'Laporan Rekap Peminjaman',
+						'judul' => 'Laporan Rekap Peminjaman Buku Harian',
 						'data_laporan' => $data_laporan
 					);
 
@@ -103,7 +103,8 @@ class Laporan extends CI_Controller {
 						'judul' => 'Laporan Rekap Peminjaman',
 						'data_laporan' => $data_laporan,
 						'data_anggota' => $data_anggota,
-						'search_param' => $search_param
+						'search_param' => $search_param,
+						'search_param_url' => $search_param_url,
 					);
 
 		//memanggil file view
@@ -152,7 +153,21 @@ class Laporan extends CI_Controller {
 		$petugas_id = $this->session->userdata('petugas_id');
 		$nim = '';
 
-		$data_laporan = $this->peminjaman_model->read($petugas_id, $nim);
+		//filter cari
+		$anggota_nim = $this->uri->segment(4) ? $this->uri->segment(4) : '-';
+        $anggota_nama = $this->uri->segment(5) ? $this->uri->segment(5) : '-';
+        $tanggal_pinjam_start = $this->uri->segment(6) ? $this->uri->segment(6) : '-';
+        $tanggal_pinjam_end = $this->uri->segment(7) ? $this->uri->segment(7) : '-';
+
+        $search_param = array(
+        					'anggota_nim' => $anggota_nim,
+        					'anggota_nama' => $anggota_nama,
+        					'tanggal_pinjam_start' => $tanggal_pinjam_start,
+        					'tanggal_pinjam_end' => $tanggal_pinjam_end,
+        				);
+        //end filter
+
+		$data_laporan = $this->peminjaman_model->read($petugas_id, $nim, $search_param);
 		
 		//mengirim data ke view
 		$output = array(

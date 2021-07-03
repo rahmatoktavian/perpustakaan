@@ -43,7 +43,7 @@
   <li class="nav-item">
     <a class="nav-link" href="<?php echo site_url('laporan/rekap_peminjaman');?>">
       <i class="fas fa-fw fa-clipboard"></i>
-      <span>Laporan Peminjaman</span>
+      <span>Rekap Peminjaman</span>
     </a>
   </li>
   <li class="nav-item">
