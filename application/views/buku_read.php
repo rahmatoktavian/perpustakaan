@@ -24,7 +24,7 @@
 				<?php if($buku['cover'] != ''):?>
 					<img src="<?php echo base_url('upload/'.$buku['cover']);?>" width="100" />
 				<?php else:?>
-					<img src="<?php echo base_url('upload/default.jpeg');?>" width="100" />
+					<img src="<?php echo base_url('assets/img/default.png');?>" width="100" />
 				<?php endif;?>
 			</td>
 			<td><?php echo $buku['judul'];?></td>

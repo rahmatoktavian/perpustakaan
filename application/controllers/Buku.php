@@ -229,7 +229,7 @@ class Buku extends CI_Controller {
 
 	public function upload_cover2_multi($delete_file) {
 		//config & load upload
-        $config2['upload_path']          = './upload2/';
+        $config2['upload_path']          = './upload/';
         $config2['allowed_types']        = 'gif|png|jpg|jpeg';
         $config2['max_size']             = 10000;
         //$config2['overwrite']             = TRUE;
@@ -252,7 +252,7 @@ class Buku extends CI_Controller {
         	//delete file after validation success
         	$delete_file = isset($delete_file) ? $delete_file : TRUE;
         	if($delete_file) {
-        		unlink(FCPATH.'/upload2/'.$upload_data['file_name']);
+        		unlink(FCPATH.'/upload/'.$upload_data['file_name']);
         	}
 
         	return $upload_data;
@@ -355,8 +355,8 @@ class Buku extends CI_Controller {
 	        $config['upload_path']          = './upload/';
 	        $config['allowed_types']        = 'gif|jpg|jpeg|png';
 	        $config['max_size']             = 10000;
-	        //$config['encrypt_name']         = TRUE;
-	        //$config['overwrite']         = TRUE;
+	        $config['encrypt_name']         = TRUE;
+	        $config['overwrite']         = TRUE;
 	        
 	        $this->load->library('upload', $config);
 

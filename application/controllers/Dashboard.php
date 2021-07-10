@@ -27,7 +27,7 @@ class Dashboard extends CI_Controller {
 
 		//grafik
 		$data_grafik = $this->dashboard_model->rekap_peminjaman_perbuku();
-
+		
 		//mengirim data ke view
 		$output = array(
 						'theme_page' => 'dashboard',

@@ -77,77 +77,77 @@
           
         	<div id="grafik_buku"></div>
 
-			<script src="<?php echo base_url('assets/vendor/highcharts/highcharts.js');?>"></script>
-			<script src="<?php echo base_url('assets/vendor/highcharts/modules/exporting.js');?>"></script>
-			<script src="<?php echo base_url('assets/vendor/highcharts/modules/export-data.js');?>"></script>
-			<script type="text/javascript">
-				// Build the chart
-				Highcharts.chart('grafik_buku', {
-				    chart: {
-				        plotBackgroundColor: null,
-				        plotBorderWidth: null,
-				        plotShadow: false,
-				        type: 'pie'
-				    },
-				    title: {
-				        text: ''
-				    },
-				    tooltip: {
-				        pointFormat: '{series.name}: <b>{point.y}</b> (<b>{point.percentage:.1f}%</b>)'
-				    },
-				    accessibility: {
-				        point: {
-				            valueSuffix: '%'
-				        }
-				    },
-				    plotOptions: {
-				        pie: {
-				            allowPointSelect: true,
-				            cursor: 'pointer',
-				            dataLabels: {
-				                enabled: false
-				            },
-				            showInLegend: true
-				        }
-				    },
-				    series: [{
-				        name: 'Peminjaman',
-				        colorByPoint: true,       
-		                innerSize: '40%',
-		                showInLegend:true,
+					<script src="<?php echo base_url('assets/vendor/highcharts/highcharts.js');?>"></script>
+					<script src="<?php echo base_url('assets/vendor/highcharts/modules/exporting.js');?>"></script>
+					<script src="<?php echo base_url('assets/vendor/highcharts/modules/export-data.js');?>"></script>
+					<script type="text/javascript">
+						// Build the chart
+						Highcharts.chart('grafik_buku', {
+						    chart: {
+						        plotBackgroundColor: null,
+						        plotBorderWidth: null,
+						        plotShadow: false,
+						        type: 'pie'
+						    },
+						    title: {
+						        text: ''
+						    },
+						    tooltip: {
+						        pointFormat: '{series.name}: <b>{point.y}</b> (<b>{point.percentage:.1f}%</b>)'
+						    },
+						    accessibility: {
+						        point: {
+						            valueSuffix: '%'
+						        }
+						    },
+						    plotOptions: {
+						        pie: {
+						            allowPointSelect: true,
+						            cursor: 'pointer',
+						            dataLabels: {
+						                enabled: false
+						            },
+						            showInLegend: true
+						        }
+						    },
+						    series: [{
+						        name: 'Peminjaman',
+						        colorByPoint: true,       
+				                innerSize: '40%',
+				                showInLegend:true,
 
-				        //format data chart
-				        data: [
-				        		<?php foreach($data_grafik as $grafik):?>
-				        		{	
-				        			name: '<?php echo $grafik['judul'];?>',
-				        			y: <?php echo $grafik['total_peminjaman'];?>
-				        		},
-						        <?php endforeach?>
-						   	]
+						        //format data chart
+						        data: [
+						        		<?php foreach($data_grafik as $grafik):?>
+						        		{	
+						        			name: '<?php echo $grafik['judul'];?>',
+						        			y: <?php echo $grafik['total_peminjaman'];?>
+						        		},
+								        <?php endforeach?>
+								   	]
 
-				        //format data original
-				        /*
-				        data: [
-				        		{
-						            name: 'Chrome', 
-						            y: 61.41
-						        }, 
+						        //format data original
+						        /*
+						        data: [
+						        		{
+								            name: 'Chrome', 
+								            y: 61.41
+								        }, 
 
-						        {
-						            name: 'Internet Explorer',
-						            y: 11.84
-						        }, 
+								        {
+								            name: 'Internet Explorer',
+								            y: 11.84
+								        }, 
 
-						        {
-						            name: 'Firefox, 
-						            y: 10.85
-						        },
-						   	]
-						*/
-				    }]
-				});
-			</script>
+								        {
+								            name: 'Firefox, 
+								            y: 10.85
+								        },
+								   	]
+										*/
+						    }]
+						});
+					</script>
 
         </div>
       </div>
