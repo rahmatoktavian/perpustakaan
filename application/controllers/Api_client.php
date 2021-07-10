@@ -16,9 +16,9 @@ class Api_client extends CI_Controller {
 	public function woowa() {
 		//config
 		$key_demo='db63f52c1a00d33cf143524083dd3ffd025d672e255cc688';
-		$url='http://149.28.156.46:8000/demo/send_message';
+		$url='http://45.77.34.32:8000/demo/send_message';
 		$data = array(
-		  "no_wa"=> '+6285xxxxxx',
+		  "no_wa"=> '+6285691357671',
 		  "key"   =>$key_demo,
 		  "message" =>'Message from codeigniter + woowa (plain)'
 		);
@@ -48,7 +48,7 @@ class Api_client extends CI_Controller {
 	public function woowa_lib() {
 		//config
 		$key_demo='db63f52c1a00d33cf143524083dd3ffd025d672e255cc688';
-		$url='http://149.28.156.46:8000/demo/send_message';
+		$url='http://45.77.34.32:8000/demo/send_message';
 		$data = array(
 		  "no_wa"=> '+628xxxxxx',
 		  "key"   =>$key_demo,
