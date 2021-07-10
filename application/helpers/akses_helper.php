@@ -21,6 +21,24 @@ function check_akses($link){
    		return TRUE;
    	} else {
    		return FALSE;
-   	}
+   	}   
+}
+
+function get_profile_img($nim) {
+    $ci =& get_instance();
+    $ci->load->model('anggota_model');
     
+    //ambil data anggota berdasarkan nim yg login
+    $data_user = $ci->anggota_model->read_single($nim);
+
+    //jika ada gambar profile: ambil gambar dari folder profile
+    if(!empty($data_user['profile']) && $data_user['profile'] != '') {
+        $profile_img = '<img src="'.base_url('profile/'.$data_user['profile']).'" style="width:75px; border-radius:25px" />';
+
+    //jika tidak ada gambar profile
+    } else {
+        $profile_img = '<i class="fas fa-user fa-lg fa-fw"></i>';
+    }
+
+    return $profile_img;
 }

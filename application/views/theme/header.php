@@ -21,7 +21,10 @@
                   
                 </span>
                 
-                <i class="fas fa-user fa-lg fa-fw"></i>
+                <?php
+                  $nim = $this->session->userdata('nim');
+                  echo get_profile_img($nim);
+                ?>
               </a>
 
               <!-- Dropdown - User Information -->
