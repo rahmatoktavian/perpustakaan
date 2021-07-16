@@ -15,7 +15,7 @@ class Buku extends CI_Controller {
         /*if(!check_akses('buku/read')) {
         	redirect('auth/login');
         }*/
-        
+
         //memanggil model
         $this->load->model(array('buku_model','kategori_buku_model'));
     }
@@ -33,6 +33,33 @@ class Buku extends CI_Controller {
 		//mengirim data ke view
 		$output = array(
 						'theme_page' => 'buku_read',
+						'judul' => 'Daftar Buku',
+
+						//data buku dikirim ke view
+						'data_buku' => $data_buku
+					);
+
+		//memanggil file view
+		$this->load->view('theme/index', $output);
+	}
+
+	public function read_qr() {
+		//memanggil function read pada buku model
+		//function read berfungsi mengambil/read data dari table buku di database
+		$data_buku = $this->buku_model->read();
+
+		$this->load->library('ciqrcode');
+		foreach($data_buku as $buku) {
+			$config['data'] =  $buku['judul'];
+			$config['size'] = 10;
+			$config['level'] = 'h';
+			$config['savename'] = FCPATH.'qrcode/'.$buku['id'].'.png';
+			$qrcode = $this->ciqrcode->generate($config);
+		}
+
+		//mengirim data ke view
+		$output = array(
+						'theme_page' => 'buku_read_qr',
 						'judul' => 'Daftar Buku',
 
 						//data buku dikirim ke view
@@ -77,7 +104,7 @@ class Buku extends CI_Controller {
 
         	//ambil nama file yg berhasil diupload
         	$cover = $upload_data['file_name'];
-        
+
 			//menangkap data input dari view
 			$kategori_id = $this->input->post('kategori_id');
 			$judul = $this->input->post('judul');
@@ -91,7 +118,7 @@ class Buku extends CI_Controller {
 							'judul' => $judul,
 							'stok' => $stok,
 						);
-			
+
 			//memanggil function insert pada buku model
 			//function insert berfungsi menyimpan/create data ke table buku di database
 			$this->buku_model->insert($input);
@@ -168,7 +195,7 @@ class Buku extends CI_Controller {
 
         	//ambil nama file yg berhasil diupload
         	$cover2 = $upload_data2['file_name'];
-        
+
 			//menangkap data input dari view
 			$kategori_id = $this->input->post('kategori_id');
 			$judul = $this->input->post('judul');
@@ -183,7 +210,7 @@ class Buku extends CI_Controller {
 							'judul' => $judul,
 							'stok' => $stok,
 						);
-			
+
 			//memanggil function insert pada buku model
 			//function insert berfungsi menyimpan/create data ke table buku di database
 			$this->buku_model->insert($input);
@@ -268,7 +295,7 @@ class Buku extends CI_Controller {
 
 		//function read berfungsi mengambil 1 data dari table buku sesuai id yg dipilih
 		$data_buku_single = $this->buku_model->read_single($id);
-		
+
 		//mengirim data ke view
 		$output = array(
 						'theme_page' => 'buku_update',
@@ -357,12 +384,12 @@ class Buku extends CI_Controller {
 	        $config['max_size']             = 10000;
 	        $config['encrypt_name']         = TRUE;
 	        $config['overwrite']         = TRUE;
-	        
+
 	        $this->load->library('upload', $config);
 
 	        //validasi upload
 	        if (!$this->upload->do_upload('cover')) {
-	        	
+
 	        	//respon alasan kenapa gagal upload
 	        	$error_upload = $this->upload->display_errors();
 	        	$this->form_validation->set_message('update_cover', $error_upload);
