@@ -10,7 +10,7 @@ class Algo extends CI_Controller {
         /*if(!check_akses('anggota/read')) {
         	redirect('auth/login');
         }*/
-        
+
         //memanggil model
         $this->load->model(array('algo_dataset_model', 'algo_result_model'));
     }
@@ -24,7 +24,7 @@ class Algo extends CI_Controller {
 
 		//dataset
 		$algo_dataset_list = $this->algo_dataset_model->read();
-		
+
 		//proses algo
 		$this->db->trans_begin();
 
@@ -104,50 +104,9 @@ class Algo extends CI_Controller {
 							'data_total' => $data_total,
 							'result' => $result_status_lulus,
 						);
-			
+
 			$this->algo_result_model->insert($input);
 		}
-
-		//parameter final result
-		/*$parameter_group_list = array('status_lulus=TEPAT;', 'status_lulus=TERLAMBAT;');
-		$parameter_extra = 'gender=LAKI-LAKI;status_mhs=MAHASISWA;status_nikah=BELUM;';
-
-		//final result
-		foreach($parameter_group_list as $param_group) {
-			
-			//text parameter final
-			$param_final_text = $param_group.$parameter_extra.' => ';
-
-			//ambil data algo sesuai param group list
-			$filter_group = array('param_group'=>$param_group);
-			$algo_result_group = $this->algo_result_model->read($filter_group);
-
-			//hitung result final (mengkalikan semua result per group)
-			$result_final_value = 0;
-			foreach($algo_result_group as $index=>$result_group) {
-				
-				//jika data pertama tidak dikalikan
-				if($index == 0) {
-					$result_final_value = $result_group['result'];
-					$param_final_text .= $result_group['result'];
-
-				//data baris kedua dikalikan dgn data pertama & selanjutnya
-				} else {
-					$result_final_value = $result_final_value * $result_group['result'];
-					$param_final_text .= ' * '.$result_group['result'];
-				}
-			}			
-
-			//insert result final
-			$input_final = array(
-							'param' => $param_final_text,
-							'param_group' => 'final',
-							'data_count' => 0,
-							'data_total' => 0,
-							'result' => $result_final_value,
-						);
-			$this->algo_result_model->insert($input_final);
-		}*/
 
 		//ambil data result berdasarkan group
 		$parameter_extra = 'gender=LAKI-LAKI;status_mhs=MAHASISWA;status_nikah=BELUM;';
@@ -156,7 +115,7 @@ class Algo extends CI_Controller {
 		if(!empty($algo_result_group)) foreach($algo_result_group as $result_group) {
 			$filter = array('param_group'=> $result_group['param_group']);
 			$algo_final = $this->algo_result_model->read($filter);
-			
+
 			$result_final_value = 0;
 			$result_final_text = $result_group['param_group'].$parameter_extra;
 			if(!empty($algo_final)) foreach($algo_final as $index=>$final) {
@@ -174,7 +133,7 @@ class Algo extends CI_Controller {
 						);
 			$this->algo_result_model->insert($input_final);
 		}
-		
+
 		if ($this->db->trans_status() === FALSE) {
 		    $this->db->trans_rollback();
 		} else {
