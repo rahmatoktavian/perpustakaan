@@ -3,102 +3,177 @@
 include_once(APPPATH.'libraries/REST_Controller.php');
 
 class Api_server extends REST_Controller {
+
     public function __construct() {
         parent::__construct();
-
-        //memanggil model
-        $this->load->model(array('kategori_buku_model'));
+        $this->load->model(array('anggota_model'));
     }
 
     function index_get() {
-        $result = $this->kategori_buku_model->read();
-        
-        if ($result) {
+        //memanggil model
+        $response = $this->anggota_model->read();
+       
+        //jika data ditemukan
+        if ($response) {
             $this->response([
                 'status' => TRUE,
-                'response' => $result
+                'data' => $response,
+            ], REST_Controller::HTTP_OK);
+
+        //jika data tidak ditemukan
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Data tidak ditemukan'
+            ], REST_Controller::HTTP_OK);
+        }
+    }
+
+    function detail_get() {
+        //menangkap nim dari url
+        $nim = $this->get('nim');
+        
+        //memanggil model + nim yang dikirim dari url
+        $response = $this->anggota_model->read_single($nim);
+
+        if ($response) {
+            $this->response([
+                'status' => TRUE,
+                'data' => $response
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
                 'status' => FALSE,
-                'response' => 'Data not found',
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                'message' => 'Data tidak ditemukan'
+            ], REST_Controller::HTTP_OK);
         }
-            
     }
-    
+
     function index_post() {
-        $nama = $this->post('nama');
-        
-        //validation
-        $validation = true;
-        $response = array();
-        if(empty($nama)) {
-            $validation = false;
-            $response[] = 'Isi data nama';
-        }
-    
-        if($validation) {
-            $input = array('nama'=>$nama);
-            $this->kategori_buku_model->insert($input);
+        //aturan validasi
+        $data = $this->post();
+        $this->form_validation->set_data($data);
 
-            $this->response([
-                'status' => TRUE,
-                'response' => 'Data Inserted'
-            ], REST_Controller::HTTP_OK);
+        $this->form_validation->set_rules('nim', 'nim', 'required|numeric|is_unique[anggota.nim]');
+        $this->form_validation->set_rules('nama', 'nama', 'required');
+        $this->form_validation->set_rules('jurusan', 'jurusan', 'required');
+
+        //jika validasi berhasil
+        if ($this->form_validation->run() == TRUE) {
+
+            //memanggil model untuk insert
+            $response = $this->anggota_model->insert($data);
+
+            //jika data ditemukan
+            if ($response) {
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Data berhasil dimasukan'
+                ], REST_Controller::HTTP_OK);
+
+            //jika data tidak ditemukan
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Gagal dimasukan'
+                ], REST_Controller::HTTP_OK);
+            }
+
+        //jika validasi gagal
         } else {
             $this->response([
                 'status' => FALSE,
-                'response' => implode(', ', $response)
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                'message' => validation_errors(' ',','),
+            ], REST_Controller::HTTP_OK);
         }
-            
     }
-    
+
     function index_put() {
-        $id = $this->put('id');
-        $nama = $this->put('nama');
-        
-        //validation
-        $validation = true;
-        $response = array();
-        if(empty($nama)) {
-            $validation = false;
-            $response[] = 'Isi data nama';
-        }
-        
-        if($validation) {
-            $input = array('nama'=>$nama);
-            $this->kategori_buku_model->update($input, $id);
+        //aturan validasi
+        $data = $this->put();
+        $this->form_validation->set_data($data);
 
-            $this->response([
-                'status' => TRUE,
-                'response' => 'Data Updated'
-            ], REST_Controller::HTTP_OK);
+        $this->form_validation->set_rules('nim', 'nim', 'required|numeric');
+        $this->form_validation->set_rules('nama', 'nama', 'required');
+        $this->form_validation->set_rules('jurusan', 'jurusan', 'required');
+
+        //jika validasi berhasil
+        if ($this->form_validation->run() == TRUE) {
+
+            //menangkap data dari form api
+            $nim = $this->put('nim');
+
+            //memanggil model untuk update
+            $response = $this->anggota_model->update($data, $nim);
+            
+            //jika data ditemukan
+            if ($response) {
+                $this->response([
+                    'status' => TRUE,
+                    'message' => 'Data berhasil diubah'
+                ], REST_Controller::HTTP_OK);
+
+            //jika data tidak ditemukan
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Gagal diubah'
+                ], REST_Controller::HTTP_OK);
+            }
+
+        //jika validasi gagal
         } else {
             $this->response([
                 'status' => FALSE,
-                'response' => implode(', ', $response)
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                'message' => validation_errors(' ',' '),
+            ], REST_Controller::HTTP_OK);
         }
-            
     }
-    
-    function index_delete() {
-        $id = $this->delete('id');
+
+    function delete_get() {
+        //menangkap nim dari url
+        $nim = $this->get('nim');
         
-        if($this->kategori_buku_model->delete($id)) {
+        //memanggil model + nim yang dikirim dari url
+        $response = $this->anggota_model->delete($nim);
+
+        //jika data ditemukan
+        if ($response) {
             $this->response([
                 'status' => TRUE,
-                'response' => 'Data Deleted'
+                'message' => 'Data berhasil dihapus'
             ], REST_Controller::HTTP_OK);
+
+        //jika data tidak ditemukan
         } else {
             $this->response([
                 'status' => FALSE,
-                'response' => implode(', ', $response)
-            ], REST_Controller::HTTP_BAD_REQUEST);
+                'message' => 'Gagal dihapus'
+            ], REST_Controller::HTTP_OK);
         }
-            
     }
+
+    /*function index_delete() {
+        //menangkap nim dari url
+        $nim = $this->delete('nim');
+
+        //memanggil model + nim yang dikirim dari url
+        $response = $this->anggota_model->delete($nim);
+
+        //jika data ditemukan
+        if ($response) {
+            $this->response([
+                'status' => TRUE,
+                'message' => 'Data berhasil dihapus'
+            ], REST_Controller::HTTP_OK);
+
+        //jika data tidak ditemukan
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Gagal dihapus'
+            ], REST_Controller::HTTP_OK);
+        }
+    }*/
 }
 ?>
