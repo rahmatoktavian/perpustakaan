@@ -50,19 +50,33 @@ class Api_server extends REST_Controller {
     }
 
     function index_post() {
+
         //aturan validasi
         $data = $this->post();
         $this->form_validation->set_data($data);
 
-        $this->form_validation->set_rules('nim', 'nim', 'required|numeric|is_unique[anggota.nim]');
-        $this->form_validation->set_rules('nama', 'nama', 'required');
-        $this->form_validation->set_rules('jurusan', 'jurusan', 'required');
+        $this->form_validation->set_rules('nim', 'NIM', 'required|numeric|min_length[3]|is_unique[anggota.nim]');
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('jurusan', 'Jurusan', 'required');
 
         //jika validasi berhasil
         if ($this->form_validation->run() == TRUE) {
 
+            //menangkap data input dari app
+            $nim = $this->post('nim');
+            $nama = $this->post('nama');
+            $jurusan = $this->post('jurusan');
+
+            //mengirim data ke model
+            $input = array(
+                            //format : nim field/kolom table => data input dari view
+                            'nim' => $nim,
+                            'nama' => $nama,
+                            'jurusan' => $jurusan,
+                        );
+
             //memanggil model untuk insert
-            $response = $this->anggota_model->insert($data);
+            $response = $this->anggota_model->insert($input);
 
             //jika data ditemukan
             if ($response) {
@@ -100,11 +114,20 @@ class Api_server extends REST_Controller {
         //jika validasi berhasil
         if ($this->form_validation->run() == TRUE) {
 
-            //menangkap data dari form api
+            //menangkap data input dari api
             $nim = $this->put('nim');
+            $nama = $this->put('nama');
+            $jurusan = $this->put('jurusan');
+
+            //mengirim data ke model
+            $input = array(
+                            //format : nim field/kolom table => data input dari view
+                            'nama' => $nama,
+                            'jurusan' => $jurusan,
+                        );
 
             //memanggil model untuk update
-            $response = $this->anggota_model->update($data, $nim);
+            $response = $this->anggota_model->update($input, $nim);
             
             //jika data ditemukan
             if ($response) {
