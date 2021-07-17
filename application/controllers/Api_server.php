@@ -114,34 +114,49 @@ class Api_server extends REST_Controller {
         //jika validasi berhasil
         if ($this->form_validation->run() == TRUE) {
 
-            //menangkap data input dari api
+            //check nim terdaftar di database
             $nim = $this->put('nim');
-            $nama = $this->put('nama');
-            $jurusan = $this->put('jurusan');
+            $check_nim = $this->anggota_model->read_single($nim);
 
-            //mengirim data ke model
-            $input = array(
-                            //format : nim field/kolom table => data input dari view
-                            'nama' => $nama,
-                            'jurusan' => $jurusan,
-                        );
-
-            //memanggil model untuk update
-            $response = $this->anggota_model->update($input, $nim);
-            
-            //jika data ditemukan
-            if ($response) {
-                $this->response([
-                    'status' => TRUE,
-                    'message' => 'Data berhasil diubah'
-                ], REST_Controller::HTTP_OK);
-
-            //jika data tidak ditemukan
-            } else {
+            //if nim tidak terdaftar
+            if(empty($check_nim)) {
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'Gagal diubah'
+                    'message' => 'NIM tidak terdaftar'
                 ], REST_Controller::HTTP_OK);
+
+            //nim terdaftar
+            } else {
+
+                //menangkap data input dari api
+                $nim = $this->put('nim');
+                $nama = $this->put('nama');
+                $jurusan = $this->put('jurusan');
+
+                //mengirim data ke model
+                $input = array(
+                                //format : nim field/kolom table => data input dari view
+                                'nama' => $nama,
+                                'jurusan' => $jurusan,
+                            );
+
+                //memanggil model untuk update
+                $response = $this->anggota_model->update($input, $nim);
+                
+                //jika data ditemukan
+                if ($response) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => 'Data berhasil diubah'
+                    ], REST_Controller::HTTP_OK);
+
+                //jika data tidak ditemukan
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Gagal diubah'
+                    ], REST_Controller::HTTP_OK);
+                }
             }
 
         //jika validasi gagal
@@ -153,30 +168,7 @@ class Api_server extends REST_Controller {
         }
     }
 
-    function delete_get() {
-        //menangkap nim dari url
-        $nim = $this->get('nim');
-        
-        //memanggil model + nim yang dikirim dari url
-        $response = $this->anggota_model->delete($nim);
-
-        //jika data ditemukan
-        if ($response) {
-            $this->response([
-                'status' => TRUE,
-                'message' => 'Data berhasil dihapus'
-            ], REST_Controller::HTTP_OK);
-
-        //jika data tidak ditemukan
-        } else {
-            $this->response([
-                'status' => FALSE,
-                'message' => 'Gagal dihapus'
-            ], REST_Controller::HTTP_OK);
-        }
-    }
-
-    /*function index_delete() {
+    function index_delete() {
         //menangkap nim dari url
         $nim = $this->delete('nim');
 
@@ -197,6 +189,6 @@ class Api_server extends REST_Controller {
                 'message' => 'Gagal dihapus'
             ], REST_Controller::HTTP_OK);
         }
-    }*/
+    }
 }
 ?>
